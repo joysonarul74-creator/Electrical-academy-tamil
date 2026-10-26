@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Industrial Devices | Electrical Academy Tamil</title>
+
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Tamil",sans-serif;background:#f3f6fb;color:#172033}
+header{background:#101827;color:white;padding:24px 16px}
+.wrap{max-width:1050px;margin:auto}
+header a{color:#b9d7ff;text-decoration:none}
+main{padding:20px 14px}
+h1{font-size:26px}
+p{line-height:1.7}
+.search,select{width:100%;padding:14px;border:1px solid #d7deea;border-radius:10px;font-size:15px;background:white;margin:8px 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:15px}
+.card{background:white;padding:18px;border:1px solid #e0e6ef;border-radius:14px;box-shadow:0 4px 12px #15213b08}
+.card h2{font-size:19px;margin:10px 0}
+.card p{font-size:14px;color:#5c687b}
+.icon{font-size:35px}
+.tag{display:inline-block;background:#e8f1ff;color:#175cd3;padding:5px 8px;border-radius:6px;font-size:12px}
+button{padding:11px 14px;background:#175cd3;color:white;border:0;border-radius:8px;font-size:14px;cursor:pointer}
+.fault{background:white;border:1px solid #e0e6ef;border-radius:12px;padding:16px;margin:12px 0;line-height:1.75}
+.fault h3{margin-top:0}
+.solution{background:#edf8ef;padding:10px;border-radius:8px}
+.warning{background:#fff0d7;padding:13px;border-radius:10px;line-height:1.7;margin:15px 0}
+.hidden{display:none}
+footer{text-align:center;padding:24px;color:#657187}
+</style>
+</head>
+
+<body>
+<header>
+<div class="wrap">
+<a href="index.html">← Home</a>
+<h1>Industrial Devices Academy</h1>
+<p>Industrial Electrical Equipment — Working, Fault Finding & Repair</p>
+</div>
+</header>
+
+<main class="wrap">
+
+<h2>Industrial Equipment Library</h2>
+<p>Equipment-ஐத் தேர்ந்தெடுத்து அதன் components, working principle மற்றும் practical faults-ஐ கற்றுக்கொள்.</p>
+
+<input class="search" id="search" placeholder="Search: Motor, Transformer, VFD...">
+
+<div class="grid" id="devices"></div>
+
+<section id="lesson" class="hidden">
+<hr>
+<button id="back">← Equipment List</button>
+<h2 id="title"></h2>
+<p id="intro"></p>
+
+<h3>Internal Components</h3>
+<p id="components"></p>
+
+<h3>Working Principle</h3>
+<p id="working"></p>
+
+<h3>Specifications</h3>
+<p id="specs"></p>
+
+<div class="warning">
+<b>Electrical Safety Warning</b><br>
+Industrial panels-ல் dangerous voltage மற்றும் stored energy இருக்கலாம்.
+Power isolation, lockout/tagout மற்றும் absence-of-voltage verification
+அவசியம். Live panel testing-ஐ qualified personnel மட்டுமே செய்ய வேண்டும்.
+VFD DC bus discharge ஆக manufacturer குறிப்பிட்ட நேரம் காத்திருந்து
+சரியான meter மூலம் verify செய்ய வேண்டும்.
+</div>
+
+<h3>Common Faults & Solutions</h3>
+<div id="faults"></div>
+</section>
+
+</main>
+
+<footer>Electrical Academy Tamil · Industrial Practical Learning</footer>
+
+<script>
+const equipment = [
+{
+id:"generator",icon:"⚡",name:"Generator",
+intro:"மின்சாரம் கிடைக்காதபோது அல்லது backup supply தேவைப்படும் இடங்களில் electrical power உருவாக்கப் பயன்படும் equipment.",
+components:"Engine, alternator, AVR, excitation system, starter battery, fuel system, cooling system, protection devices.",
+working:"Engine mechanical energy உருவாக்குகிறது. Alternator electromagnetic induction மூலம் electrical output உருவாக்குகிறது. AVR voltage-ஐ regulate செய்கிறது.",
+specs:"Nameplate-ல் kVA/kW, voltage, frequency (Hz), rated current, power factor மற்றும் phase விவரங்களைப் பதிவு செய்யவும். பொதுவான ratings model-க்கு ஏற்ப மாறும்.",
+faults:[
+["Generator start ஆகவில்லை","Battery weak, starter circuit, fuel supply அல்லது interlock fault.","Battery terminals, alarm/error indication மற்றும் fuel level-ஐ வெளிப்புறமாகச் சரிபார். Electrical starter tests qualified technician மூலம்.","Battery/connection/fuel issue சரிசெய்; starter அல்லது controller fault-ஐ diagnose செய்."],
+["Voltage output இல்லை","AVR, excitation, breaker அல்லது alternator fault.","Output indication, breaker status மற்றும் alarms-ஐ manual படி சரிபார். Live output testing qualified technician மூலம்.","AVR/excitation/alternator fault உறுதியான பிறகு service செய்."],
+["Voltage குறைவாக உள்ளது","Engine speed, AVR, overload அல்லது sensing fault.","Nameplate rating, load மற்றும் controller readings-ஐ பதிவு செய்.","Overload அல்லது speed-control fault சரிசெய்; AVR testing technician மூலம்."],
+["Frequency மாறுகிறது","Engine speed governor அல்லது overload problem.","Frequency meter/controller indication மற்றும் load change-ஐ கவனி.","Governor அல்லது engine issue-ஐ service செய்."],
+["அதிகமாக சூடாகிறது","Cooling blockage, low coolant, overload அல்லது ventilation problem.","Equipment OFF செய்து cool ஆன பின் coolant/leak/airflow-ஐ manufacturer procedure படி check செய்.","Cooling fault சரிசெய்; overload-ஐக் குறைத்து technician மூலம் ஆய்வு செய்."]
+]
+},
+{
+id:"transformer",icon:"🔌",name:"Transformer",
+intro:"AC electrical energy-ஐ ஒரு voltage level-இலிருந்து மற்றொரு voltage level-க்கு மாற்றும் static electrical equipment.",
+components:"Primary winding, secondary winding, magnetic core, insulation, bushings, cooling system, protection devices; oil-filled models-ல் transformer oil.",
+working:"Primary winding-ல் AC supply கொடுக்கும்போது alternating magnetic flux உருவாகிறது. அது secondary winding-ல் EMF induce செய்கிறது.",
+specs:"Nameplate-ல் kVA, primary/secondary voltage, frequency, phase, impedance percentage, cooling class மற்றும் insulation details பார்க்கவும்.",
+faults:[
+["Secondary output இல்லை","Supply/interruption, protection trip, winding அல்லது connection fault.","Energized panel-ஐ திறக்காதே. Isolate செய்து LOTO மற்றும் absence-of-voltage verification முடித்த பிறகு technician continuity/ratio tests செய்ய வேண்டும்.","Connection அல்லது protection issue சரிசெய்; winding fault-க்கு specialist service."],
+["Output voltage குறைவு","Overload, wrong tap setting, input voltage issue.","Nameplate, load current மற்றும் approved measurement records-ஐ ஒப்பிடு.","Load/input/tap issue-ஐ qualified technician மூலம் சரிசெய்."],
+["அதிகமாக சூடாகிறது","Overload, cooling failure அல்லது internal fault.","Load record, temperature indication, fan/pump alarm ஆகியவற்றைப் பார்.","Load/cooling issue சரிசெய்; abnormal temperature தொடர்ந்தால் shutdown மற்றும் inspection."],
+["Abnormal humming","Loose mounting, overexcitation அல்லது internal mechanical issue.","Safe distance-ல் noise மற்றும் vibration மாற்றத்தை கவனி.","Load/voltage check செய்து qualified transformer technician-ஐ அழை."],
+["Oil leakage","Gasket, valve அல்லது tank damage.","அருகில் electrical hazard உள்ளதா பார்க்கவும்; leak-ஐத் தொடாதே.","Equipment-ஐ பாதுகாப்பாக isolate செய்து specialist மூலம் leak repair செய்."],
+["Insulation resistance குறைவு","Moisture, contamination அல்லது insulation deterioration.","De-energize, isolate மற்றும் discharge செய்த பிறகு மட்டுமே approved insulation tester மூலம் qualified personnel test செய்ய வேண்டும்.","Drying, cleaning அல்லது winding repair-ஐ test results அடிப்படையில் மேற்கொள்."]
+]
+},
+{
+id:"motor",icon:"⚙️",name:"Industrial Motor",
+intro:"Electrical energy-ஐ mechanical rotation-ஆக மாற்றும் equipment. Pumps, compressors, conveyors போன்றவற்றில் பயன்படும்.",
+components:"Stator, rotor, bearings, shaft, cooling fan, terminal box, winding insulation, starter/protection.",
+working:"Three-phase stator supply rotating magnetic field உருவாக்குகிறது. அதனால் induction motor rotor-ல் current induce ஆகி torque உருவாகிறது.",
+specs:"Nameplate-ல் kW/HP, voltage, current, frequency, RPM, star/delta connection, power factor மற்றும் duty rating பார்க்கவும்.",
+faults:[
+["Motor start ஆகவில்லை","Supply loss, overload relay, contactor, control circuit அல்லது mechanical jam.","Isolate/LOTO செய்து absence of voltage verify செய். Shaft jam மற்றும் control schematic-ஐ inspect செய்; winding tests de-energized நிலையில் மட்டும்.","Control fault, jam அல்லது defective component-ஐ உறுதிப்படுத்திச் சரிசெய்."],
+["Motor humming மட்டும்","Single phasing, low voltage அல்லது rotor/load jam.","உடனே stop செய். Isolated நிலையில் shaft, terminals மற்றும் winding continuity-ஐ qualified technician test செய்ய வேண்டும்.","Phase supply, mechanical jam அல்லது winding fault சரிசெய்."],
+["Overcurrent / overload trip","Mechanical overload, phase imbalance, low voltage அல்லது winding issue.","Motor-ஐ மீண்டும் மீண்டும் reset செய்யாதே. Recorded phase currents, load மற்றும் trip settings-ஐ compare செய்.","Load அல்லது supply fault சரிசெய்; overload setting nameplate படி verify செய்."],
+["Bearing noise","Bearing wear, misalignment, lubrication issue.","Isolate செய்த பிறகு shaft play, bearing noise மற்றும் alignment-ஐ inspect செய்.","Correct bearing மற்றும் lubrication procedure படி service செய்."],
+["Motor அதிகமாக சூடாகிறது","Overload, blocked cooling, phase imbalance அல்லது insulation fault.","Cooling vents, load record, nameplate current மற்றும் protection trips-ஐ check செய்.","Cause சரிசெய்யும் வரை motor-ஐ இயக்காதே."],
+["Insulation fault","Moisture, aging, contamination அல்லது winding damage.","Motor-ஐ முழுமையாக isolate செய்து disconnect செய்த பிறகு approved insulation resistance test செய்ய வேண்டும்.","Dry/clean/rewind அல்லது replace — test results அடிப்படையில்."]
+]
+},
+{
+id:"vfd",icon:"🎛️",name:"VFD",
+intro:"Variable Frequency Drive motor-க்கு வழங்கப்படும் frequency மற்றும் voltage-ஐ கட்டுப்படுத்தி speed control செய்ய உதவும்.",
+components:"Rectifier, DC bus capacitors, IGBT inverter, control PCB, keypad, cooling fan, terminals.",
+working:"AC input rectifier மூலம் DC ஆக மாற்றப்படுகிறது. DC bus-இலிருந்து inverter variable-frequency AC உருவாக்கி motor speed-ஐ கட்டுப்படுத்துகிறது.",
+specs:"Input/output voltage, rated current, motor kW, overload capacity, frequency range மற்றும் IP rating ஆகியவற்றை nameplate/manual-ல் பார்க்கவும்.",
+faults:[
+["Drive ON ஆகவில்லை","Input supply, fuse, control supply அல்லது internal drive fault.","Display/alarm மற்றும் external supply status-ஐ safe procedure படி check செய்; internal test technician மூலம்.","Supply issue சரிசெய்; drive fault service செய்ய வேண்டும்."],
+["Overcurrent trip","Acceleration time குறைவு, mechanical jam, short அல்லது motor issue.","Fault code பதிவு செய்; load மற்றும் motor cable-ஐ isolate செய்த நிலையில் inspect செய்.","Cause கண்டறிந்து சரிசெய்; parameters-ஐ manual படி அமை."],
+["Overvoltage trip","Deceleration வேகம் அதிகம், regenerative energy அல்லது supply issue.","Fault history மற்றும் deceleration parameters-ஐ பார்க்கவும்.","Approved parameters/braking method-ஐ drive manual படி சரிசெய்."],
+["Motor ஓடவில்லை","Run command இல்லை, interlock, wrong parameters அல்லது output fault.","Run/enable status, command source, interlock மற்றும் fault history check செய்.","Control wiring/parameters-ஐ schematic படி சரிசெய்."],
+["Overheating","Fan failure, blocked vents, overload அல்லது high ambient temperature.","Power OFF செய்து manufacturer கூறிய discharge time காத்திருந்து vents/fan-ஐ inspect செய்.","Cooling fault சரிசெய்; correct derating/load conditions பின்பற்று."],
+["Earth fault / insulation alarm","Motor cable, motor winding அல்லது ground leakage.","Drive-ஐ isolate செய்து manufacturer procedure படி motor/cable-ஐ disconnect செய்த பிறகு insulation test செய். Drive-க்கு connected நிலையில் megger பயன்படுத்தாதே.","Cable/motor insulation fault சரிசெய்; drive damage technician மூலம் assess செய்யப்பட வேண்டும்."]
+]
+},
+{
+id:"starter",icon:"🧰",name:"Motor Starter Panel",
+intro:"Motor-ஐ ON/OFF செய்யவும் short circuit மற்றும் overload-லிருந்து பாதுகாக்கவும் பயன்படும் panel.",
+components:"MCB/MCCB, contactor, overload relay, control transformer/SMPS, push buttons, auxiliary contacts, timer, interlocks.",
+working:"Start command contactor coil-ஐ energize செய்கிறது. Main contacts motor-க்கு supply கொடுக்கின்றன. Overload அல்லது protection trip ஏற்பட்டால் control circuit motor-ஐ disconnect செய்கிறது.",
+specs:"Supply voltage, motor rated current, contactor utilization category, overload range, breaking capacity மற்றும் control voltage-ஐ verify செய்.",
+faults:[
+["Contactor pick up ஆகவில்லை","Control supply இல்லை, coil fault, stop/interlock open அல்லது overload trip.","Isolate செய்து schematic, coil marking மற்றும் control fuse-ஐ inspect செய். Coil resistance test de-energized நிலையில் செய்ய வேண்டும்.","Control circuit fault சரிசெய்; coil rating சரிபார்த்து மாற்று."],
+["Overload relay trip","Motor overload, phase loss, incorrect setting அல்லது jam.","Trip indication, motor nameplate current மற்றும் recorded currents-ஐ compare செய்.","Cause சரிசெய்த பிறகு overload setting-ஐ nameplate படி அமை."],
+["Contactor chatter","Low control voltage, loose connection அல்லது coil fault.","Power isolate செய்து terminals மற்றும் coil rating-ஐ inspect செய்.","Loose connection/defective coil சரிசெய்."],
+["Motor single phasing","Fuse/contact damage, loose terminal அல்லது supply phase loss.","உடனே motor-ஐ stop செய். Isolated நிலையில் fuse/terminal continuity check; live phase tests electrician மூலம்.","Damaged fuse/terminal அல்லது supply fault சரிசெய்."],
+["Star-delta transition fault","Timer, interlock, auxiliary contact அல்லது wiring issue.","LOTO செய்து control schematic மற்றும் timer settings-ஐ verify செய்.","Interlocking-ஐ சரிசெய்; star மற்றும் delta contactors ஒரே நேரத்தில் close ஆகாததை உறுதிசெய்."],
+["Breaker trip","Short circuit, earth fault அல்லது wrong protection coordination.","Repeated reset செய்யாதே; qualified electrician fault location மற்றும் protection rating verify செய்ய வேண்டும்.","Fault அகற்றி test செய்த பின் மட்டுமே re-energize செய்."]
+]
+},
+{
+id:"apfc",icon:"📊",name:"APFC Panel",
+intro:"Automatic Power Factor Correction panel capacitor steps-ஐ control செய்து power factor-ஐ மேம்படுத்த உதவும்.",
+components:"APFC controller, capacitor banks, capacitor-duty contactors, fuses, detuned reactors, CT, discharge resistors.",
+working:"Controller CT மற்றும் voltage signals-ஐ வைத்து power factor-ஐ கணக்கிட்டு தேவையான capacitor steps-ஐ switch செய்கிறது.",
+specs:"System voltage, capacitor kvar, step sizes, controller CT ratio, frequency மற்றும் reactor detuning rating ஆகியவற்றை verify செய்.",
+faults:[
+["Power factor improve ஆகவில்லை","Capacitor step failure, CT wiring/polarity, wrong settings அல்லது insufficient kvar.","Controller reading, alarm மற்றும் step status-ஐ பார்க்கவும். Panel live உள்ளபோது உள்ளே வேலை செய்யாதே.","CT/settings மற்றும் capacitor steps-ஐ qualified technician test செய்து சரிசெய்ய வேண்டும்."],
+["Capacitor step ON ஆகவில்லை","Fuse blown, contactor fault, capacitor failure அல்லது control wiring.","Isolate செய்து capacitor discharge completion-ஐ approved meter மூலம் verify செய்த பிறகு inspect/test செய்.","Faulty fuse/contactor/capacitor-ஐ correct rating-ல் மாற்று."],
+["Capacitor overheating அல்லது swelling","Overvoltage, harmonics, poor ventilation அல்லது capacitor aging.","உடனே isolate செய். Capacitor-ஐ தொடுவதற்கு முன் discharge/voltage verify procedure பின்பற்று.","Damaged capacitor மாற்று; harmonics மற்றும் ventilation ஆய்வு செய்."],
+["Fuse அடிக்கடி blow ஆகிறது","Capacitor short, switching transient அல்லது harmonic overload.","Repeated fuse replacement வேண்டாம். Isolate/discharge செய்து capacitance மற்றும் circuit fault-ஐ technician test செய்ய வேண்டும்.","Root cause சரிசெய்து manufacturer-rated fuse பொருத்து."],
+["Controller wrong reading","CT ratio/polarity, phase reference அல்லது wiring fault.","Controller settings மற்றும் approved wiring diagram-ஐ compare செய்.","CT wiring/settings-ஐ qualified electrician மூலம் சரிசெய்."],
+["Contactor noise / contact damage","Wrong capacitor-duty contactor, frequent switching அல்லது high inrush current.","Isolate செய்து contact condition மற்றும் equipment ratings-ஐ inspect செய்.","சரியான capacitor-duty contactor மற்றும் switching arrangement பயன்படுத்தவும்."]
+]
+}
+];
+
+const grid=document.getElementById("devices");
+const lesson=document.getElementById("lesson");
+const search=document.getElementById("search");
+
+function renderList(){
+ const q=search.value.toLowerCase();
+ grid.innerHTML="";
+ equipment.filter(e=>(e.name+" "+e.intro+" "+e.components).toLowerCase().includes(q))
+ .forEach(e=>{
+  const card=document.createElement("article");
+  card.className="card";
+  const icon=document.createElement("div");
+  icon.className="icon"; icon.textContent=e.icon;
+  const tag=document.createElement("span");
+  tag.className="tag"; tag.textContent="Industrial Equipment";
+  const h=document.createElement("h2"); h.textContent=e.name;
+  const p=document.createElement("p"); p.textContent=e.intro;
+  const btn=document.createElement("button"); btn.textContent="Faults & Lessons திற";
+  btn.addEventListener("click",()=>showLesson(e.id));
+  card.append(icon,tag,h,p,btn); grid.appendChild(card);
+ });
+}
+
+function showLesson(id){
+ const e=equipment.find(item=>item.id===id);
+ if(!e)return;
+ lesson.classList.remove("hidden");
+ document.getElementById("title").textContent=e.icon+" "+e.name;
+ document.getElementById("intro").textContent=e.intro;
+ document.getElementById("components").textContent=e.components;
+ document.getElementById("working").textContent=e.working;
+ document.getElementById("specs").textContent=e.specs;
+
+ const box=document.getElementById("faults");
+ box.innerHTML="";
+ e.faults.forEach((f,i)=>{
+  const card=document.createElement("article");
+  card.className="fault";
+  const h=document.createElement("h3");
+  h.textContent=(i+1)+". "+f[0];
+  const cause=document.createElement("p");
+  cause.innerHTML="<b>Possible Causes:</b> ";
+  cause.append(document.createTextNode(f[1]));
+  const test=document.createElement("p");
+  test.innerHTML="<b>Safe Testing:</b> ";
+  test.append(document.createTextNode(f[2]));
+  const sol=document.createElement("p");
+  sol.className="solution";
+  sol.innerHTML="<b>Solution:</b> ";
+  sol.append(document.createTextNode(f[3]));
+  card.append(h,cause,test,sol);
+  box.appendChild(card);
+ });
+ lesson.scrollIntoView({behavior:"smooth"});
+ history.replaceState(null,"","?id="+id);
+}
+
+document.getElementById("back").addEventListener("click",()=>{
+ lesson.classList.add("hidden");
+ history.replaceState(null,"",location.pathname);
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+
+search.addEventListener("input",renderList);
+
+const initialId=new URLSearchParams(location.search).get("id");
+renderList();
+if(initialId)showLesson(initialId);
+</script>
+</body>
+</html>

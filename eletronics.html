@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<meta name="google-site-verification" content="Y7HMmDC0v2-BHaHbUSFm4KzBug8NZ8Hz0WO-2whAc_A" />
+<title>Electronic Components & PCB | Electrical Academy Tamil</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Tamil",sans-serif;background:#f3f6fb;color:#172033}
+header{background:#101827;color:white;padding:22px 16px}
+.wrap{max-width:1050px;margin:auto}
+header a{color:#bfdbfe;text-decoration:none}
+main{padding:20px 14px}
+h1{font-size:25px}
+p{line-height:1.75}
+input,select{width:100%;padding:14px;margin:8px 0 15px;border:1px solid #d7deea;border-radius:10px;font-size:15px;background:white}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.card,.fault{background:white;border:1px solid #e0e6ef;border-radius:13px;padding:16px;margin-bottom:12px}
+.card h3{margin:10px 0}
+.icon{font-size:32px}
+button{padding:11px 14px;border:0;border-radius:8px;background:#175cd3;color:white;font-size:14px;cursor:pointer}
+.tag{display:inline-block;background:#e8f1ff;color:#175cd3;padding:5px 8px;border-radius:6px;font-size:12px}
+.hidden{display:none}
+.warning{background:#fff0d7;padding:13px;border-radius:10px;line-height:1.75;margin:15px 0}
+.solution{background:#edf8ef;padding:10px;border-radius:8px}
+.small{font-size:13px;color:#657187}
+footer{text-align:center;padding:24px;color:#657187}
+</style>
+</head>
+<body>
+<header>
+<div class="wrap">
+<a href="index.html">← Home</a>
+<h1>Electronic Components & PCB Repair</h1>
+<p>Component identification முதல் practical fault finding வரை தமிழில் கற்றுக்கொள்.</p>
+</div>
+</header>
+
+<main class="wrap">
+<h2>Component Library</h2>
+<input id="search" placeholder="Search: Resistor, MOSFET, PCB short...">
+<div class="grid" id="grid"></div>
+
+<section id="lesson" class="hidden">
+<hr>
+<button id="back">← Components List</button>
+<h2 id="title"></h2>
+<p id="intro"></p>
+
+<h3>1. Identification & Function</h3>
+<p id="function"></p>
+
+<h3>2. Working Principle</h3>
+<p id="working"></p>
+
+<h3>3. Multimeter Testing</h3>
+<p id="testing"></p>
+
+<h3>4. Expected Result</h3>
+<p id="expected"></p>
+
+<h3>5. Common Faults & Solutions</h3>
+<div id="faults"></div>
+
+<div class="warning">
+<b>⚠️ PCB Safety</b><br>
+PCB-ஐ test செய்வதற்கு முன் power disconnect செய்.
+Capacitors-ல் ஆபத்தான charge இருக்கலாம்; voltage இல்லாததை
+சரியான meter மூலம் உறுதி செய். Mains power supply, inverter,
+TV மற்றும் induction PCB-களில் high voltage இருக்கலாம்.
+Live testing-ஐ qualified personnel மட்டுமே செய்ய வேண்டும்.
+Capacitor-ஐ screwdriver மூலம் short செய்து discharge செய்யாதே.
+</div>
+</section>
+</main>
+
+<footer>Electrical Academy Tamil · Electronics Practical Lab</footer>
+
+<script>
+const data = [
+{
+id:"resistor",icon:"〰️",name:"Resistor",
+intro:"Circuit current-ஐ limit செய்யவும் voltage-ஐ divide செய்யவும் பயன்படும் passive component.",
+fn:"Resistance value Ohm (Ω)-ல் அளவிடப்படும். SMD resistor-களில் marking அல்லது circuit reference உதவும்.",
+work:"Ohm's law: V = I × R. Resistor வழியாக current செல்லும்போது voltage drop ஏற்படும்.",
+test:"Power OFF செய்து capacitor discharge உறுதி செய். தேவையெனில் resistor-ன் ஒரு leg-ஐ circuit-லிருந்து disconnect செய்து multimeter-ஐ Ω mode-ல் வை.",
+expected:"Reading resistor marking/tolerance-க்கு பொருந்த வேண்டும். Circuit-ல் பொருத்தியபடி அளந்தால் parallel paths reading-ஐ மாற்றலாம்.",
+faults:[
+["Open resistor","Reading OL அல்லது expected value-ஐ விட மிக அதிகமாக இருக்கலாம்.","Circuit-லிருந்து isolate செய்து மீண்டும் அளவு பார். சரியான resistance மற்றும் power rating உள்ள resistor மாற்று."],
+["Resistance அதிகரித்துள்ளது","Heat damage அல்லது component aging.","Measured value-ஐ color code/marking-உடன் ஒப்பிடு; cause-ஐ கண்டறிந்து மாற்று."],
+["Burnt resistor","Downstream short circuit அல்லது overload.","Resistor-ஐ மட்டும் மாற்றாதே. Connected transistor/diode/IC short உள்ளதா check செய்."]
+]},
+{
+id:"capacitor",icon:"🔋",name:"Capacitor",
+intro:"Electric charge-ஐ சேமிக்கவும் filtering, timing மற்றும் coupling-க்கும் பயன்படும் component.",
+fn:"Electrolytic capacitor-க்கு polarity இருக்கும்; ceramic capacitor-க்கு பொதுவாக polarity இல்லை. Value µF அல்லது nF-ல் குறிக்கப்படும்.",
+work:"Electric field-ல் charge சேமிக்கிறது. Power supply-ல் rectified voltage ripple-ஐ குறைக்க உதவுகிறது.",
+test:"Power disconnect செய்து capacitor-ஐ manufacturer-approved முறையில் discharge செய்; voltage zero என meter மூலம் உறுதி செய். Capacitance mode பயன்படுத்தவும். தேவையெனில் ஒரு leg isolate செய்.",
+expected:"Capacitance marking மற்றும் tolerance-க்கு ஏற்ப இருக்க வேண்டும். ESR test தேவைப்படலாம்; capacitance சரியாக இருந்தாலும் ESR அதிகமாக இருக்கலாம்.",
+faults:[
+["Capacitor bulging அல்லது leakage","Overheating, aging அல்லது overvoltage.","வெளிப்புறமாக damage பாரு; capacitance/ESR test செய். Exact capacitance, voltage, temperature மற்றும் polarity specification-க்கு ஏற்ற part மாற்று."],
+["Capacitance குறைந்துள்ளது","Electrolytic aging அல்லது heat.","Circuit-லிருந்து isolate செய்து capacitance meter-ல் test செய்; manufacturer tolerance-க்கு வெளியே இருந்தால் மாற்று."],
+["Short circuit","Internal dielectric failure.","Discharged, isolated நிலையில் resistance/diode mode-ல் short உள்ளதா check செய்; connected parallel components-ஐயும் கவனி."],
+["PCB power unstable","Filter capacitor weak அல்லது வேறு power fault.","Ripple/ESR diagnosis தகுதியான technician மூலம் செய்; capacitor மட்டும் காரணம் என்று உடனே முடிவு செய்யாதே."]
+]},
+{
+id:"diode",icon:"➡️",name:"Diode & Zener Diode",
+intro:"Current-ஐ ஒரு direction-ல் அனுமதிக்கும் semiconductor. Zener diode voltage reference/regulation-க்கு பயன்படும்.",
+fn:"Diode-ல் anode மற்றும் cathode terminals உள்ளன. Body marking பொதுவாக cathode-ஐக் காட்டும்.",
+work:"Forward bias-ல் current conduct செய்யும்; reverse bias-ல் normal diode current-ஐ தடுக்கிறது. Zener-ஐ reverse breakdown region-ல் design படி பயன்படுத்துவர்.",
+test:"Power OFF, discharge மற்றும் isolate செய்த பிறகு multimeter diode mode-ல் இரு direction-லும் measure செய்.",
+expected:"Silicon diode forward drop பொதுவாக சுமார் 0.5–0.8 V; reverse direction-ல் OL கிடைக்கலாம். Actual value component மற்றும் meter-ஐப் பொறுத்தது.",
+faults:[
+["Diode short","இரு directions-லும் குறைந்த voltage drop இருக்கலாம்.","Circuit-லிருந்து ஒரு leg isolate செய்து மீண்டும் test செய்; short உறுதியானால் exact part மாற்று."],
+["Diode open","இரு directions-லும் OL கிடைக்கலாம்.","Isolated diode-ஐ test செய்து marking/specification-க்கு ஏற்ப மாற்று."],
+["Zener voltage தவறு","Wrong part, overheating அல்லது damage.","சாதாரண diode mode Zener breakdown voltage-ஐ அளவிடாது. Current-limited test setup மற்றும் correct reference-ஐ qualified technician பயன்படுத்த வேண்டும்."]
+]},
+{
+id:"led",icon:"💡",name:"LED",
+intro:"Electrical energy-ஐ light-ஆக மாற்றும் semiconductor diode.",
+fn:"Anode/cathode மற்றும் forward voltage தெரிந்திருக்க வேண்டும். High-power LED-க்கு heatsink தேவைப்படலாம்.",
+work:"Forward current செல்லும்போது ஒளி உமிழ்கிறது. Current limiting அவசியம்.",
+test:"Power OFF செய்து LED-ஐ isolate செய்யவும். Diode mode-ல் test செய்; meter voltage போதுமானதாக இருந்தால் மட்டும் LED ஒளிரலாம்.",
+expected:"சில LEDs faint-ஆக ஒளிரலாம் அல்லது forward drop காட்டலாம். White/blue LEDs-க்கு அதிக forward voltage தேவைப்படலாம்.",
+faults:[
+["LED ஒளிரவில்லை","Open LED, reverse polarity அல்லது drive circuit fault.","Isolated diode test செய்; board supply/driver fault-ஐ தனியாக diagnose செய்."],
+["LED short","Junction failure அல்லது overheating.","Board-லிருந்து isolate செய்து test செய்; same type/rating replacement பயன்படுத்தவும்."],
+["LED மீண்டும் மீண்டும் எரிகிறது","Excess current, poor heatsinking அல்லது driver fault.","LED-ஐ மட்டும் மாற்றாமல் current-limiting driver மற்றும் thermal contact-ஐ சரிபார்."]
+]},
+{
+id:"transistor",icon:"🔺",name:"BJT Transistor",
+intro:"Small base current மூலம் collector-emitter current-ஐ control செய்யும் semiconductor.",
+fn:"NPN/PNP type மற்றும் Base, Collector, Emitter pinout-ஐ datasheet மூலம் கண்டறி.",
+work:"Base-emitter junction control மூலம் collector-emitter conduction ஏற்படுகிறது.",
+test:"Power OFF செய்து isolate செய். Diode mode-ல் base junctions-ஐ datasheet/pinout அடிப்படையில் test செய்.",
+expected:"Silicon junction forward drop பொதுவாக சுமார் 0.55–0.75 V இருக்கலாம். எல்லா pin combinations-க்கும் இதே reading கிடைக்காது.",
+faults:[
+["Collector-emitter short","Overcurrent அல்லது overheating.","Transistor-ஐ isolate செய்து datasheet அடிப்படையில் junction test செய்; load மற்றும் driver-ஐயும் check செய்."],
+["Junction open","Component damage அல்லது broken lead.","Isolated diode test மற்றும் pinout verification செய்; correct type மாற்று."],
+["Transistor சூடாகிறது","Excess load, bias fault, shorted load அல்லது poor heatsinking.","Power OFF செய்து connected load, bias resistors மற்றும் heatsink-ஐ check செய்."]
+]},
+{
+id:"mosfet",icon:"🔧",name:"MOSFET / IGBT",
+intro:"Switching power supplies, motor drives, inverters மற்றும் induction cooktop-களில் power switching-க்கு பயன்படும்.",
+fn:"MOSFET-ல் Gate, Drain, Source; IGBT-ல் Gate, Collector, Emitter terminals இருக்கும். Pinout package-க்கு ஏற்ப மாறும்.",
+work:"Gate signal மூலம் power path switching செய்யப்படுகிறது. சில devices-ல் internal body diode இருக்கும்.",
+test:"High-voltage circuit-ஐ முழுமையாக isolate செய்து DC bus discharge-ஐ verify செய். Gate-ஐ static damage-லிருந்து பாதுகாத்து, datasheet மற்றும் appropriate component tester மூலம் test செய்.",
+expected:"ஒரே universal reading கிடையாது. Body diode, gate characteristics மற்றும் circuit connection அடிப்படையில் result மாறும்.",
+faults:[
+["Power transistor short","Overcurrent, overheating, driver fault அல்லது load short.","Power stage-ஐ மீண்டும் energize செய்யாதே. Transistor, gate driver மற்றும் output load-ஐ technician diagnose செய்ய வேண்டும்."],
+["Gate damage","ESD, overvoltage அல்லது gate driver fault.","Datasheet limits-ஐப் பயன்படுத்தி isolated component test செய்; gate driver cause-ஐயும் கண்டறி."],
+["Transistor மீண்டும் எரிகிறது","Shorted load, wrong drive waveform அல்லது snubber fault.","Root cause கண்டறியும் முன் replacement part-ஐ இயக்காதே. High-voltage power stage specialist repair தேவை."]
+]},
+{
+id:"inductor",icon:"🌀",name:"Inductor / Coil",
+intro:"Magnetic field-ல் energy சேமிக்கும் component. Filters, converters மற்றும் motor circuits-ல் பயன்படும்.",
+fn:"Inductance Henry (H), mH அல்லது µH-ல் குறிப்பிடப்படும். Winding resistance பொதுவாக குறைவாக இருக்கலாம்.",
+work:"Current மாற்றத்தை எதிர்க்கும் magnetic field உருவாகிறது.",
+test:"Power OFF செய்து coil-ஐ circuit-லிருந்து isolate செய். Resistance/continuity அளவு பார்; inductance meter இருந்தால் inductance-ஐ அளவு பார்.",
+expected:"Continuity மட்டும் சரியாக இருந்தால் coil முழுமையாக சரி என்று உறுதி செய்ய முடியாது; shorted turns-ஐ தனியாக diagnose செய்ய வேண்டியிருக்கலாம்.",
+faults:[
+["Winding open","Wire break அல்லது thermal damage.","Isolated continuity test செய்; open coil-ஐ replace/rewind செய்ய வேண்டும்."],
+["Coil அதிகமாக சூடாகிறது","Overcurrent, shorted turns அல்லது wrong frequency/application.","Coil resistance, load current மற்றும் component rating-ஐ compare செய்."],
+["Inductor noise","Loose core அல்லது switching current issue.","Power OFF செய்து mounting/core damage inspect செய்; circuit fault-ஐ technician கண்டறிய வேண்டும்."]
+]},
+{
+id:"relay",icon:"🔀",name:"Relay",
+intro:"Low-power control signal மூலம் தனி contact circuit-ஐ switch செய்யும் electromechanical அல்லது solid-state component.",
+fn:"Coil terminals மற்றும் COM, NO, NC contacts-ஐ diagram மூலம் அடையாளம் காண வேண்டும்.",
+work:"Coil energize ஆனதும் magnetic force மூலம் contacts change state ஆகின்றன.",
+test:"Power OFF மற்றும் circuit isolate செய்த நிலையில் coil resistance, COM-NO/NC continuity-ஐ datasheet படி test செய்.",
+expected:"Coil resistance model-க்கு ஏற்ப மாறும். Coil resistance சரியாக இருப்பதால் contact சரியாக உள்ளது என்று முடிவு செய்ய முடியாது.",
+faults:[
+["Relay click ஆகவில்லை","Coil open, control signal இல்லை அல்லது driver fault.","Coil resistance மற்றும் control circuit-ஐ தனித்தனியாக test செய்."],
+["Contacts conduct ஆகவில்லை","Burnt/worn contacts அல்லது mechanical failure.","Coil unpowered/energized states-ல் contact diagram-ஐப் பின்பற்றி test செய்; correct-rated relay மாற்று."],
+["Relay chatter","Supply/control voltage instability அல்லது driver fault.","Control supply, solder joints மற்றும் driver circuit-ஐ check செய்."]
+]},
+{
+id:"fuse",icon:"🛡️",name:"Fuse",
+intro:"Overcurrent ஏற்பட்டால் circuit-ஐ disconnect செய்து wiring மற்றும் components-ஐப் பாதுகாக்கும் sacrificial protection component.",
+fn:"Current rating, voltage rating, breaking capacity மற்றும் fast/slow-blow type முக்கியம்.",
+work:"Fuse element-ல் current அதிகமாகி thermal limit அடைந்தால் element open ஆகிறது.",
+test:"Power OFF செய்து fuse-ஐ holder-லிருந்து isolate செய்து continuity test செய்.",
+expected:"Good fuse-க்கு பொதுவாக continuity; blown fuse-க்கு open circuit.",
+faults:[
+["Fuse open","Short circuit, overload அல்லது component failure.","Fuse மாற்றுவதற்கு முன் bridge rectifier, MOSFET, wiring மற்றும் load short உள்ளதா check செய்."],
+["Fuse மீண்டும் எரிகிறது","Underlying short அல்லது overload இன்னும் உள்ளது.","Higher-rated fuse அல்லது wire பயன்படுத்தாதே; root cause கண்டறி."],
+["Fuse holder சூடாகிறது","Loose contact, corrosion அல்லது poor connection.","Power isolate செய்து holder/contact damage inspect செய்து சரியான rating-ல் repair செய்."]
+]},
+{
+id:"pcb",icon:"🧩",name:"PCB Board Troubleshooting",
+intro:"Printed Circuit Board என்பது components மற்றும் copper tracks மூலம் electrical connections உருவாக்கும் board.",
+fn:"Input section, protection, rectifier, filter, regulator, control IC மற்றும் output section-ஐ circuit diagram மூலம் அடையாளம் காணவும்.",
+work:"Power section supply voltage உருவாக்குகிறது; control section signals process செய்கிறது; output stage load-ஐ இயக்குகிறது.",
+test:"Power OFF, discharge மற்றும் isolation உறுதி செய்த பிறகு visual inspection, continuity, resistance, diode mode மற்றும் capacitance tests செய். Live rail measurements qualified technician மட்டும்.",
+expected:"Exact voltage மற்றும் resistance values schematic/service manual-ல் குறிப்பிடப்பட்டவற்றுடன் ஒப்பிடப்பட வேண்டும். எல்லா PCB-க்கும் பொதுவான reading கிடையாது.",
+faults:[
+["PCB dead / power இல்லை","Input connection, fuse, rectifier, startup circuit அல்லது power IC fault.","Burnt marks, cracked parts, fuse மற்றும் input path-ஐ power-isolated நிலையில் inspect செய். Fuse திறந்ததற்கான காரணத்தையும் கண்டறி."],
+["Power rail short","Shorted capacitor, diode, IC அல்லது MOSFET.","Power OFF மற்றும் discharged நிலையில் resistance/diode mode பயன்படுத்தி section-by-section diagnose செய். In-circuit low resistance மட்டும் short என்று உறுதி செய்யாது."],
+["PCB intermittent operation","Cracked solder joint, loose connector, thermal fault அல்லது damaged component.","Magnification மூலம் solder joints மற்றும் connectors-ஐ inspect செய்; power OFF நிலையில் repair செய்."],
+["Burnt PCB track","Excess current, loose connection அல்லது component short.","Track damage-ஐ மட்டும் wire போட்டு bridge செய்யாதே. Root cause, copper current capacity, clearance மற்றும் creepage ஆகியவற்றை qualified repairer assess செய்ய வேண்டும்."],
+["Output இல்லை","Regulator, driver, relay, output transistor அல்லது load fault.","Power-isolated component tests மற்றும் schematic-based diagnosis செய்; output stage மற்றும் load இரண்டையும் check செய்."],
+["IC / controller வேலை செய்யவில்லை","Supply rail fault, reset/clock issue, shorted output அல்லது IC damage.","IC-ஐ உடனே மாற்றாதே. Supply, reset, external components மற்றும் connected load-ஐ verify செய்."]
+]}
+];
+
+const grid=document.getElementById("grid");
+const lesson=document.getElementById("lesson");
+const search=document.getElementById("search");
+
+function makeText(tag,text){
+ const el=document.createElement(tag);
+ el.textContent=text;
+ return el;
+}
+
+function renderList(){
+ const q=search.value.trim().toLowerCase();
+ grid.innerHTML="";
+ data.filter(d=>(d.name+" "+d.intro+" "+d.fn+" "+d.faults.flat().join(" ")).toLowerCase().includes(q))
+ .forEach(d=>{
+  const card=document.createElement("article");
+  card.className="card";
+  card.append(makeText("div",d.icon));
+  card.firstChild.className="icon";
+  const tag=makeText("span","Components & PCB");
+  tag.className="tag";
+  card.append(tag,makeText("h3",d.name),makeText("p",d.intro));
+  const btn=makeText("button","Testing & Faults திற");
+  btn.addEventListener("click",()=>showLesson(d.id));
+  card.append(btn);
+  grid.append(card);
+ });
+ if(!grid.children.length)grid.textContent="இந்த search-க்கு result கிடைக்கவில்லை.";
+}
+
+function showLesson(id){
+ const d=data.find(x=>x.id===id);
+ if(!d)return;
+
+ document.getElementById("title").textContent=d.icon+" "+d.name;
+ document.getElementById("intro").textContent=d.intro;
+ document.getElementById("function").textContent=d.fn;
+ document.getElementById("working").textContent=d.work;
+ document.getElementById("testing").textContent=d.test;
+ document.getElementById("expected").textContent=d.expected;
+
+ const box=document.getElementById("faults");
+ box.innerHTML="";
+ d.faults.forEach((f,i)=>{
+  const card=document.createElement("article");
+  card.className="fault";
+  card.append(makeText("h3",(i+1)+". "+f[0]));
+  card.append(makeText("p","Possible Cause: "+f[1]));
+  card.append(makeText("p","Testing: "+f[2]));
+  const sol=makeText("p","Solution: "+f[3]);
+  sol.className="solution";
+  card.append(sol);
+  box.append(card);
+ });
+
+ lesson.classList.remove("hidden");
+ history.replaceState(null,"","?id="+encodeURIComponent(id));
+ lesson.scrollIntoView({behavior:"smooth"});
+}
+
+document.getElementById("back").addEventListener("click",()=>{
+ lesson.classList.add("hidden");
+ history.replaceState(null,"",location.pathname);
+ window.scrollTo({top:0,behavior:"smooth"});
+});
+
+search.addEventListener("input",renderList);
+renderList();
+
+const initialId=new URLSearchParams(location.search).get("id");
+if(initialId)showLesson(initialId);
+</script>
+</body>
+</html>

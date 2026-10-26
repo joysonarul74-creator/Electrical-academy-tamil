@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Faults & Solutions | Electrical Academy Tamil</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,"Noto Sans Tamil",sans-serif;background:#f3f6fb;color:#182235}
+header{background:#101827;color:white;padding:22px 16px}
+.wrap{max-width:1000px;margin:auto}
+a{color:#1764d8}
+header a{color:#c4ddff;text-decoration:none}
+main{padding:20px 14px}
+select,input{width:100%;padding:13px;border:1px solid #d4dce8;border-radius:10px;background:white;font-size:15px;margin:7px 0 12px}
+h1{font-size:25px}
+h2{font-size:21px}
+.card{background:white;border:1px solid #e0e6ef;border-radius:14px;padding:17px;margin:14px 0}
+.card h3{margin-top:0;font-size:18px}
+.tag{font-size:12px;background:#e8f1ff;color:#1455b5;padding:5px 8px;border-radius:6px}
+.section{margin:13px 0;line-height:1.75}
+.section b{display:block;margin-bottom:3px}
+.solution{background:#eef8f0;padding:10px;border-radius:8px}
+.warning{background:#fff2dd;padding:13px;border-radius:10px;line-height:1.7;margin:15px 0}
+.small{font-size:13px;color:#627087}
+button{border:0;border-radius:8px;background:#175cd3;color:white;padding:11px 14px;font-size:14px;cursor:pointer}
+footer{text-align:center;padding:22px;color:#68758a}
+</style>
+</head>
+<body>
+<header>
+ <div class="wrap">
+  <a href="devices.html">← Device Library</a>
+  <h1>🔧 Practical Faults & Solutions</h1>
+  <p>அறிகுறியைக் கண்டறி → Test செய் → காரணத்தை உறுதி செய் → Repair செய்.</p>
+ </div>
+</header>
+
+<main class="wrap">
+ <label for="device"><b>Device தேர்வு செய்</b></label>
+ <select id="device"></select>
+
+ <label for="search"><b>Fault தேடு</b></label>
+ <input id="search" placeholder="உதாரணம்: motor ஓடவில்லை, cooling இல்லை">
+
+ <div class="warning">
+  <b>⚠️ Electrical Safety</b><br>
+  Continuity / resistance test செய்வதற்கு முன் plug-ஐ disconnect செய்.
+  Capacitors-ல் charge இருக்கலாம். Live voltage testing, AC/TV/induction
+  PCB repair மற்றும் sealed refrigerant system வேலைகளைத் தகுதியான
+  நபர்கள் மட்டுமே செய்ய வேண்டும். பாதுகாப்பு உறுதி இல்லையெனில் நிறுத்து.
+ </div>
+
+ <p id="count" class="small"></p>
+ <div id="faults"></div>
+</main>
+
+<footer>Electrical Academy Tamil · Practical Repair Learning</footer>
+
+<script>
+const DB = {
+fan: {
+name:"Ceiling Fan", faults:[
+["Fan ON ஆகவில்லை","Supply இல்லாமை, switch, regulator, wiring அல்லது winding fault.","Plug/supply OFF நிலையில் wiring மற்றும் switch continuity-ஐ check செய். Isolated motor winding-ஐ resistance mode-ல் test செய்; exact value model-ஐப் பொறுத்தது.","Supply/wiring fault சரிசெய். Winding open அல்லது short உறுதியானால் motor service அல்லது replacement."],
+["Humming மட்டும் வருகிறது","Capacitor weak, rotor jam அல்லது winding fault.","Power OFF செய்து blade-ஐ கையால் மெதுவாகச் சுழற்றிப் பார். Capacitor-ஐ safe discharge செய்த பிறகு அதன் µF rating-ஐ capacitance meter-ல் அளவு பார்.","Bearing jam சரிசெய்; rating பொருந்தும் capacitor மாற்று. Winding fault இருந்தால் motor service."],
+["Fan மெதுவாக ஓடுகிறது","Low supply, weak capacitor, bearing friction அல்லது regulator fault.","Isolated நிலையில் blade free rotation check; capacitor µF மற்றும் regulator condition check செய்.","Faulty capacitor/regulator மாற்று; bearing service செய். Supply problem-ஐ electrician மூலம் சரிசெய்."],
+["சத்தம் அல்லது vibration","Loose mounting, blade imbalance, bearing wear.","Power OFF செய்து mounting, blade damage மற்றும் shaft play-ஐ check செய்.","Mounting இறுக்கு; damaged blade அல்லது worn bearing-ஐ சரிசெய்/மாற்று."],
+["Fan அதிகமாக சூடாகிறது","Bearing jam, winding fault, wrong capacitor அல்லது overload.","Power OFF; shaft rotation, burnt smell மற்றும் winding resistance/insulation-ஐ தகுந்த tester-ல் check செய்.","காரணத்தை சரிசெய். Burnt winding அல்லது insulation failure இருந்தால் பயன்படுத்த வேண்டாம்; service செய்."],
+["Speed மாறிக்கொண்டே இருக்கிறது","Regulator, loose connection, capacitor அல்லது supply fluctuation.","Power OFF நிலையில் regulator மற்றும் terminals-ஐ inspect செய்; capacitor rating check செய்.","Loose connection அல்லது faulty control component-ஐ சரிசெய்."]
+]},
+"washing-machine":{
+name:"Washing Machine",faults:[
+["Machine ON ஆகவில்லை","Socket, plug, cord, door lock, fuse அல்லது PCB power fault.","Plug unplug செய்து cord continuity-ஐ check செய். Socket-ஐ பாதுகாப்பாக electrician மூலம் verify செய்.","Damaged cord/lock-ஐ சரியான part-ஆல் மாற்று; PCB fault-ஐ service செய்."],
+["Water fill ஆகவில்லை","Tap closed, inlet filter blocked, inlet valve fault அல்லது water-level sensor.","Tap/pipe check செய். Power disconnected நிலையில் inlet filter மற்றும் valve coil continuity-ஐ service manual படி check செய்.","Filter சுத்தம் செய்; valve coil open/short என உறுதியானால் valve மாற்று."],
+["Water drain ஆகவில்லை","Drain hose blockage, pump jam, pump fault.","Power OFF செய்து hose/filter-ல் blockage check செய். Pump-ஐ அகற்றுவதற்கு முன் உள்ள நீரை பாதுகாப்பாக வெளியேற்று; isolated pump-ஐ test செய்.","Hose/filter clean செய்; damaged drain pump மாற்று."],
+["Drum சுழலவில்லை","Door lock, belt, motor, motor driver அல்லது load imbalance.","Power OFF செய்து drum-ஐ மெதுவாகச் சுழற்றிப் பார்; belt damage check செய். Motor test model-specific.","Load redistribute செய்; belt அல்லது defective motor/control part-ஐ உறுதி செய்து மாற்று."],
+["Spin ஆகவில்லை","Water drain ஆகாமை, door lock, imbalance அல்லது sensor fault.","முதலில் drain fault மற்றும் error code check செய்; door lock-ஐ inspect செய்.","Drain/door fault சரிசெய்; load சமமாகப் பகிர்; sensor fault-ஐ diagnose செய்."],
+["Water leak ஆகிறது","Hose, seal, detergent drawer அல்லது pump seal damage.","Power unplug செய்து tap close செய்; hose, clamp, gasket-ஐ visually inspect செய்.","Leak உள்ள hose/gasket/seal-ஐ மாற்று."],
+["அதிக vibration","Uneven floor, transport bolts, imbalance அல்லது worn suspension.","Machine level, load distribution மற்றும் model-க்கு transport bolts உள்ளனவா check செய்.","Level சரிசெய்; transport bolts-ஐ manual படி அகற்று; damaged suspension service செய்."],
+["தண்ணீர் சூடாகவில்லை","Heater, temperature sensor, wiring அல்லது control fault.","Plug unplug செய்த நிலையில் heater resistance மற்றும் sensor-ஐ manufacturer specification-படி test செய்.","Open heater அல்லது defective sensor-ஐ மாற்று; PCB fault-ஐ service செய்."]
+]},
+ac:{
+name:"Air Conditioner",faults:[
+["AC ON ஆகவில்லை","Supply, breaker, remote, fuse அல்லது PCB fault.","Remote batteries மற்றும் display check செய். Breaker மீண்டும் மீண்டும் trip ஆனால் reset செய்து முயற்சி செய்யாமல் technician-ஐ அழை.","Supply fault electrician மூலம் சரிசெய்; PCB/fuse diagnosis technician மூலம்."],
+["Cooling இல்லை","Wrong setting, dirty filter, airflow issue, refrigerant அல்லது compressor fault.","Cooling mode/setpoint check செய்; filter clean செய்; indoor/outdoor airflow மற்றும் error code பார்க்கவும்.","Airflow தடையை நீக்கு. Refrigerant leak/charge மற்றும் compressor-ஐ qualified AC technician diagnose செய்ய வேண்டும்."],
+["Indoor fan ஓடவில்லை","Fan motor, connector, sensor அல்லது control board fault.","Power isolate செய்து filter obstruction மற்றும் accessible fan obstruction check செய்.","Motor/control fault உறுதியானால் correct part replace/service."],
+["Outdoor unit start ஆகவில்லை","Supply, communication wiring, inverter board, compressor protection.","Error code பதிவு செய்; repeated restart வேண்டாம். Internal electrical test technician மட்டுமே.","Model-specific diagnosis அடிப்படையில் wiring/board/component repair."],
+["Indoor unit-ல் water leak","Drain hose blockage, poor slope, frozen coil.","Power OFF செய்; visible drain outlet blockage மற்றும் filter-ஐ check செய்.","Drain line clean செய்; installation slope/insulation சரிசெய். Coil ice காரணத்தை technician கண்டறிய வேண்டும்."],
+["Ice படிகிறது","Dirty filter, low airflow, refrigerant leak அல்லது sensor fault.","AC OFF செய்து ice உருக விடு; filter மற்றும் air inlet/outlet check செய்.","Filter clean செய்; refrigerant அல்லது sensor பிரச்சினைக்கு technician."],
+["Breaker trip ஆகிறது","Short circuit, insulation fault, compressor/inverter fault.","மீண்டும் breaker ON செய்யாதே. Power isolate செய்து qualified electrician insulation மற்றும் circuit-ஐ test செய்ய வேண்டும்.","Short/insulation fault சரிசெய்யப்பட்ட பின் மட்டுமே இயக்கவும்."],
+["அதிக சத்தம்","Loose mount, fan obstruction, bearing அல்லது compressor issue.","Power OFF செய்து வெளிப்புற obstruction மற்றும் mounting-ஐ பார்வையிடு.","Loose mounting சரிசெய்; internal fan/compressor service technician மூலம்."]
+]},
+"led-tv":{
+name:"LED TV",faults:[
+["TV ON ஆகவில்லை","Socket, power cord, power board அல்லது mainboard.","Unplug செய்து cord/connector visual inspection செய். Internal power board-ஐ திறந்து live test செய்யாதே.","External supply சரிசெய்; internal board fault-க்கு technician."],
+["Sound வருகிறது; picture இல்லை","Backlight LED, backlight driver அல்லது display fault.","TV unplug செய்; screen-ல் faint image இருக்கிறதா வெளிப்புறமாகப் பார். Internal LED test qualified technician மூலம்.","Backlight strip/driver fault உறுதியானால் repair/replace."],
+["Picture உள்ளது; sound இல்லை","Mute, input settings, speaker அல்லது audio circuit.","Volume/mute/input மற்றும் headphone/Bluetooth settings check செய்.","Setting சரிசெய்; speaker/audio board fault என்றால் service."],
+["TV restart ஆகிறது","Power supply instability, overheating, software அல்லது mainboard.","Ventilation, external cable மற்றும் update/error behaviour check செய்.","Ventilation சரிசெய்; software reset/update manufacturer instructions படி; board service."],
+["Screen lines வருகிறது","Cable/input, T-Con, panel அல்லது connection fault.","வேறு input/source test செய்; screen physical damage உள்ளதா பார்.","Source cable fault சரிசெய்; internal panel/T-Con repair technician மூலம்."],
+["Remote வேலை செய்யவில்லை","Battery, remote key அல்லது IR sensor.","புதிய batteries வைத்து test செய்; phone camera வழியாக IR remote ஒளியை சில models-ல் பார்க்கலாம்.","Battery/remote மாற்று; TV receiver fault service செய்."],
+["TV அதிகமாக சூடாகிறது","Blocked ventilation, dust அல்லது power board fault.","TV OFF செய்து unplug செய்; vents-ல் dust மற்றும் clearance check செய்.","Vents சுத்தம் செய்; burnt smell/அதிக heat இருந்தால் பயன்படுத்தாமல் service செய்."],
+["HDMI signal இல்லை","Wrong input, cable, source device அல்லது HDMI port.","வேறு cable, source மற்றும் port-ஐ வெளிப்புறமாக test செய்.","Faulty cable/source மாற்று; damaged port-ஐ technician repair செய்ய வேண்டும்."]
+]},
+mixer:{
+name:"Mixer Grinder",faults:[
+["Motor ON ஆகவில்லை","Socket, cord, switch, overload protector அல்லது motor.","Unplug செய்து jar interlock, cord மற்றும் switch continuity check செய்.","Damaged switch/cord/interlock மாற்று; motor fault service செய்."],
+["Motor hum ஆகிறது; blade சுழலவில்லை","Blade jam, bearing jam அல்லது winding fault.","Plug unplug செய்து jar-ல் obstruction உள்ளதா check செய்; motor-ஐ திறக்காமல் shaft jam இருப்பதை technician check செய்யட்டும்.","Obstruction அகற்று; jammed bearing/motor service செய்."],
+["Motor slow ஆகிறது","Overload, worn brushes (brush-type motor), bearing அல்லது low supply.","Jar load குறைத்து test செய்; unplug நிலையில் blade மற்றும் coupling inspect செய்.","Load சரிசெய்; worn brush/bearing/coupling-ஐ model-க்கு ஏற்றபடி மாற்று."],
+["Sparks அதிகமாக வருகிறது","Worn carbon brushes, commutator damage அல்லது armature fault.","உடனே unplug செய். Motor திறந்த நிலையில் இயக்கி spark test செய்யாதே.","Brush/armature-ஐ technician inspect செய்து சரிசெய்ய வேண்டும்."],
+["Burnt smell வருகிறது","Overload, blocked blade, winding overheating.","உடனே power disconnect செய்; மீண்டும் இயக்காதே.","Overload/jam காரணம் கண்டறி; burnt winding இருந்தால் motor service/replace."],
+["அதிக சத்தம்","Worn bearing, loose jar, damaged coupling.","Unplug செய்து jar lock, coupling மற்றும் blade assembly-ஐ check செய்.","Worn/damaged parts மாற்று."],
+["Overload protector அடிக்கடி trip","Overload, jam, overheating அல்லது motor fault.","Cool ஆக விடு; load குறைத்து obstruction check செய். தொடர்ந்து trip ஆனால் பயன்படுத்தாதே.","Jam நீக்கு; motor/current fault technician மூலம் diagnose செய்."]
+]},
+refrigerator:{
+name:"Refrigerator",faults:[
+["Fridge ON ஆகவில்லை","Socket, cord, thermostat, start device அல்லது control board.","Light/display உள்ளதா check செய்; plug/cable வெளிப்புறமாக inspect செய். Repeated breaker trip என்றால் மீண்டும் ON செய்யாதே.","Supply issue சரிசெய்; internal electrical fault technician மூலம்."],
+["Cooling இல்லை","Wrong setting, door seal, airflow, compressor அல்லது sealed-system fault.","Temperature setting, door closure, vents மற்றும் condenser area (accessible என்றால்) check செய்.","Airflow/door seal சரிசெய்; compressor/refrigerant diagnosis technician மூலம்."],
+["Compressor click செய்கிறது; start ஆகவில்லை","Start relay, overload protector, supply அல்லது compressor fault.","Plug unplug செய்; hot compressor-ஐ தொடாதே. Relay/compressor electrical test qualified technician மூலம்.","Faulty start device மாற்று; compressor fault உறுதியானால் service."],
+["Freezer-ல் அதிக ice","Door gasket, door left open அல்லது defrost system fault.","Door gasket மற்றும் door closure check செய்; ice-ஐ கத்தி கொண்டு அகற்றாதே.","Gasket மாற்று; defrost heater/sensor/control service செய்."],
+["உள்ளே water தேங்குகிறது","Drain hole blockage, spill அல்லது defrost drain issue.","Power disconnect செய்து accessible drain-ஐ manual படி clean செய்.","Drain clear செய்; damaged drain component repair."],
+["அதிக சத்தம்","Uneven floor, fan touching ice, compressor vibration.","Unit level மற்றும் வெளிப்புற contact check செய்; moving parts-ல் கை வைக்காதே.","Level சரிசெய்; internal fan/compressor technician மூலம்."],
+["Compressor நிற்காமல் ஓடுகிறது","Door leak, high ambient heat, dirty condenser அல்லது cooling-system fault.","Door seal, temperature setting மற்றும் ventilation check செய்.","Ventilation/gasket சரிசெய்; தொடர்ந்தால் technician."],
+["Body-ல் electric shock உணர்வு","Earthing fault, insulation leakage அல்லது damaged cord.","தொடாதே; உடனே supply-ஐ பாதுகாப்பாக isolate செய்; மீண்டும் பயன்படுத்தாதே.","Qualified electrician earth continuity மற்றும் insulation test செய்து பாதுகாப்பு உறுதி செய்ய வேண்டும்."]
+]},
+"water-pump":{
+name:"Water Pump",faults:[
+["Pump ON ஆகவில்லை","Supply, overload, capacitor, switch அல்லது winding fault.","Power isolate செய்; shaft jam check செய். Winding continuity மற்றும் capacitor-ஐ rating-க்கு ஏற்ப test செய்.","Supply fault சரிசெய்; defective capacitor/overload மாற்று; winding service."],
+["Motor hum ஆகிறது; start ஆகவில்லை","Capacitor weak, impeller jam அல்லது winding fault.","Power OFF செய்; pump-ஐ மீண்டும் மீண்டும் start செய்யாதே. Shaft/impeller மற்றும் capacitor test செய்.","Jam நீக்கு; correct-rated capacitor மாற்று."],
+["Motor ஓடுகிறது; water வரவில்லை","Priming இல்லை, air leak, dry source, blocked inlet அல்லது damaged impeller.","Power OFF செய்து water source, inlet strainer, priming மற்றும் suction pipe leak check செய்.","Pump manual படி prime செய்; leak/blockage சரிசெய்."],
+["Water pressure குறைவு","Blocked pipe/filter, leak, low water level அல்லது worn impeller.","Power isolate செய்து valves, filter, pipe leak மற்றும் water level check செய்.","Blockage/leak சரிசெய்; impeller wear இருந்தால் service."],
+["Motor அதிகமாக சூடாகிறது","Overload, dry running, low voltage அல்லது bearing fault.","Power OFF செய்; water availability, obstruction மற்றும் bearing noise check செய்.","Dry-run காரணத்தை சரிசெய்; bearing/winding fault service."],
+["MCB/RCCB trip ஆகிறது","Short circuit, earth leakage, wet terminal அல்லது insulation failure.","மீண்டும் reset செய்யாதே. Qualified electrician insulation resistance மற்றும் earthing test செய்ய வேண்டும்.","Leakage/short காரணம் சரிசெய்து safety tests pass ஆன பின் இயக்கு."],
+["Water leak ஆகிறது","Mechanical seal, gasket, pipe joint damage.","Power isolate செய்து leak location-ஐ பார்வையிடு.","Seal/gasket/joint சரியான part-ஆல் மாற்று."],
+["Pump அடிக்கடி start/stop ஆகிறது","Pressure switch, float switch, leak அல்லது controller fault.","Power OFF செய்து water leak, float movement மற்றும் settings check செய்.","Leak சரிசெய்; defective switch/controller service செய்."]
+]},
+iron:{
+name:"Electric Iron",faults:[
+["Heat ஆகவில்லை","Cord, thermostat, thermal fuse அல்லது heating element.","Unplug செய்து முழுமையாக cool ஆக விடு; cord continuity மற்றும் isolated element resistance test செய்.","Open cord/element அல்லது thermal fuse-ஐ correct-rated part-ஆல் மாற்று."],
+["Heat ஆகாமல் indicator எரிகிறது","Heating element open அல்லது internal connection fault.","Plug unplug செய்து element continuity/resistance-ஐ model specification படி test செய்.","Open element/connection repair அல்லது replace."],
+["அதிகமாக சூடாகிறது","Thermostat contacts stuck அல்லது temperature control fault.","Unplug செய்; cool ஆன பிறகு control knob மற்றும் thermostat mechanism inspect செய்.","Faulty thermostat மாற்று; safety control-ஐ bypass செய்யாதே."],
+["Indicator எரியவில்லை","Lamp, cord, thermostat அல்லது supply issue.","Plug unplug செய்து lamp/cord continuity test செய்.","Faulty indicator/cord-ஐ மாற்று; lamp எரியாததால் மட்டும் heater fault என முடிவு செய்யாதே."],
+["Plug அல்லது cord சூடாகிறது","Loose socket, damaged plug அல்லது high-resistance contact.","உடனே unplug செய்; கருகிய socket/plug பயன்படுத்தாதே.","Damaged plug/cord/socket-ஐ சரியான rating-ல் மாற்று."],
+["Iron-ல் water leak","Overfilling, seal அல்லது steam control fault.","Unplug செய்து cool ஆன பின் tank, cap மற்றும் steam control-ஐ inspect செய்.","Manual படி fill செய்; damaged seal/control repair செய்."],
+["MCB/RCCB trip","Element insulation failure அல்லது moisture.","மீண்டும் இயக்காதே. Qualified technician insulation resistance test செய்ய வேண்டும்.","Insulation fault உள்ள component மாற்று; பாதுகாப்பு உறுதி செய்."]
+]},
+"water-heater":{
+name:"Water Heater",faults:[
+["Water சூடாகவில்லை","Supply, thermostat, thermal cut-out அல்லது heating element.","Breaker OFF செய்து absence of voltage உறுதி செய்யப்பட்ட பின் element resistance மற்றும் thermostat continuity-ஐ technician test செய்ய வேண்டும்.","Faulty element/thermostat-ஐ correct-rated part-ஆல் மாற்று."],
+["தண்ணீர் மெதுவாக சூடாகிறது","Scale buildup, low element power அல்லது அதிக water usage.","Power isolate செய்; element rating/nameplate மற்றும் usage check செய்.","Scale service செய்யவும்; element fault உறுதியானால் மாற்றவும்."],
+["RCCB/ELCB trip","Element earth leakage, moisture அல்லது wiring fault.","மீண்டும் ON செய்யாதே; heater பயன்படுத்தாதே. Electrician insulation/earth test செய்ய வேண்டும்.","Leakage காரணம் சரிசெய்து tests pass ஆன பின் மட்டுமே பயன்படுத்தவும்."],
+["Indicator எரியவில்லை","Supply, lamp, thermostat அல்லது internal connection.","Breaker OFF நிலையில் visible damage check செய்; internal tests technician மூலம்.","Faulty lamp/control/connection repair."],
+["தண்ணீர் அதிகமாக சூடாகிறது","Thermostat stuck அல்லது cut-out fault.","Power OFF செய்; மீண்டும் பயன்படுத்த வேண்டாம்.","Thermostat மற்றும் independent thermal cut-out-ஐ test செய்து defective part மாற்று."],
+["Tank அல்லது joint leak","Gasket, valve, corrosion அல்லது tank damage.","Power isolate செய்; நீர் supply close செய்; wet electrical parts-ஐ தொடாதே.","Joint/gasket service; corroded tank replacement தேவைப்படலாம்."],
+["Shock உணர்வு","Earthing failure அல்லது element insulation leakage.","உடனே power isolate செய்; heater மற்றும் தண்ணீரைத் தொடாதே.","Qualified electrician earth continuity, bonding மற்றும் insulation tests செய்ய வேண்டும்."],
+["அசாதாரண சத்தம்","Scale deposits அல்லது boiling noise; pressure issue இருக்கலாம்.","Power OFF செய்து unit-ஐ inspect செய்ய technician-ஐ அழை; pressure relief valve-ஐ block செய்யாதே.","Descaling/service; safety valve fault-ஐ சரிசெய்."]
+]},
+induction:{
+name:"Induction Cooktop",faults:[
+["ON ஆகவில்லை","Socket, cord, fuse, control board அல்லது internal power stage.","Unplug செய்து cord மற்றும் external socket check செய். Internal board-ஐ திறந்து live test செய்யாதே.","External supply சரிசெய்; internal fault qualified technician மூலம்."],
+["Vessel detect ஆகவில்லை","Wrong vessel, small base அல்லது pan detection circuit fault.","Induction-compatible flat-bottom vessel வைத்து test செய்.","சரியான vessel பயன்படுத்து; தொடர்ந்தால் sensor/control service."],
+["E0/E1 போன்ற error","Model-ஐப் பொறுத்த vessel, voltage, sensor அல்லது temperature error.","Exact model manual-ல் error code meaning பார்க்கவும்; ventilation மற்றும் cookware check செய்.","Manual படி correction; persistent error-க்கு service."],
+["சில நிமிடங்களில் OFF ஆகிறது","Overheating, blocked fan, temperature sensor அல்லது supply issue.","Unplug செய்து cool ஆக விடு; air vents obstruction check செய்.","Ventilation clear செய்; fan/sensor fault service."],
+["Fan ஓடவில்லை","Fan motor, connector அல்லது control board fault.","Unplug செய்து external vent blockage check செய்; internal fan test technician மூலம்.","Damaged fan/connection மாற்று."],
+["Heating குறைவாக உள்ளது","Low power setting, incompatible vessel அல்லது input supply issue.","Power level, vessel base மற்றும் socket condition check செய்.","Correct cookware/settings பயன்படுத்து; supply/board fault diagnose செய்."],
+["அதிக சத்தம்","Cooling fan, loose panel அல்லது cookware vibration.","Unplug செய்து வெளிப்புற vibration/vent obstruction check செய்.","Vent clear செய்; internal fan/loose part service."],
+["MCB trip அல்லது burnt smell","IGBT/rectifier short, wiring fault அல்லது insulation damage.","உடனே unplug செய்; மீண்டும் இயக்காதே; PCB-ஐத் தொடாதே.","Qualified technician power-stage மற்றும் insulation fault diagnose செய்து repair செய்ய வேண்டும்."]
+]}
+};
+const select = document.getElementById("device");
+const search = document.getElementById("search");
+const faults = document.getElementById("faults");
+const count = document.getElementById("count");
+
+Object.entries(DB).forEach(([id,device])=>{
+  const option=document.createElement("option");
+  option.value=id;
+  option.textContent=device.name;
+  select.appendChild(option);
+});
+  function render(){
+  const id = new URLSearchParams(location.search).get("id");
+  if(id && DB[id]) select.value=id;
+
+  const device=DB[select.value];
+  const q=search.value.trim().toLowerCase();
+
+  const filtered=device.faults.filter(fault=>
+    fault.join(" ").toLowerCase().includes(q)
+  );
+
+  count.textContent =
+    `${device.name} — ${filtered.length} faults காட்டப்படுகிறது`;
+
+  faults.innerHTML=filtered.map((f,i)=>`
+    <article class="card">
+      <span class="tag">FAULT ${i+1}</span>
+      <h3>${f[0]}</h3>
+      <div class="section"><b>1. Possible Causes</b>${f[1]}</div>
+      <div class="section"><b>2. Testing Method</b>${f[2]}</div>
+      <div class="section solution"><b>3. Solution</b>${f[3]}</div>
+    </article>
+  `).join("") || "<p>இந்த search-க்கு fault கிடைக்கவில்லை.</p>";
+}
+
+select.addEventListener("change",()=>{
+  search.value="";
+  render();
+});
+search.addEventListener("input",render);
+render();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  

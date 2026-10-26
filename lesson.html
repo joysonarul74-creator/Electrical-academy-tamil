@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Electrical Academy Tamil - Lesson</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f1f5f9;
+      color: #172033;
+      font-family: Arial, sans-serif;
+      line-height: 1.8;
+    }
+    header {
+      background: #101d33;
+      color: white;
+      padding: 22px 16px;
+    }
+    header h1 { color: #fbbf24; }
+    main { max-width: 800px; margin: auto; padding: 16px; }
+    .panel {
+      background: white;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .formula {
+      background: #e0f2fe;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 19px;
+      font-weight: bold;
+    }
+    .safety {
+      background: #fff7ed;
+      border-left: 4px solid #ea580c;
+      padding: 12px;
+    }
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    a, button {
+      display: inline-block;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: #fbbf24;
+      color: #101d33;
+      border: 0;
+      text-decoration: none;
+      font-size: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .back { background: #dbeafe; }
+    footer { text-align: center; padding: 20px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>⚡ Electrical Academy Tamil</h1>
+    <p>Lesson / பாடம்</p>
+  </header>
+
+  <main>
+    <a class="back" href="index.html">← Home Page</a>
+
+    <section class="panel">
+      <h2 id="title">பாடம்</h2>
+      <p id="intro"></p>
+    </section>
+
+    <section class="panel">
+      <h3>📖 விளக்கம்</h3>
+      <div id="explanation"></div>
+    </section>
+
+    <section class="panel">
+      <h3>🧮 Formula / முக்கியக் கருத்து</h3>
+      <div class="formula" id="formula"></div>
+      <p id="example"></p>
+    </section>
+
+    <section class="panel">
+      <h3>🛠️ Practical பயன்பாடு</h3>
+      <p id="practical"></p>
+    </section>
+
+    <section class="panel">
+      <h3>🛡️ Safety</h3>
+      <p class="safety" id="safety"></p>
+    </section>
+
+    <section class="panel">
+      <h3>📝 உன்னை நீயே சோதித்துப் பார்</h3>
+      <p id="question"></p>
+      <button onclick="showAnswer()">பதிலைப் பார்க்க</button>
+      <p id="answer" hidden></p>
+    </section>
+
+    <div class="nav">
+      <a id="prev" href="index.html">← Home</a>
+      <a id="next" href="index.html">Next →</a>
+    </div>
+  </main>
+
+  <footer>Electrical Academy Tamil</footer>
+
+  <script>
+    const lessons = {
+      "ohms-law": {
+        title: "Electrical Basics - Ohm's Law",
+        intro: "Voltage, Current, Resistance ஆகியவற்றின் தொடர்பைக் கற்போம்.",
+        explanation: `
+          <p><b>Voltage (V):</b> மின்னோட்டத்தைச் செலுத்தும் மின் அழுத்த வேறுபாடு.</p>
+          <p><b>Current (I):</b> மின்சுமை பாயும் வீதம். அலகு Ampere (A).</p>
+          <p><b>Resistance (R):</b> மின்னோட்டத்திற்கான எதிர்ப்பு. அலகு Ohm (Ω).</p>
+          <p>Ohm's Law படி, நிலையான physical conditions-ல்
+          ஒரு ohmic conductor-ன் voltage, current-க்கு நேர்விகிதத்தில் இருக்கும்.</p>`,
+        formula: "V = I × R",
+        example: "உதாரணம்: I = 2 A, R = 5 Ω. ஆகவே V = 2 × 5 = 10 V.",
+        practical: "சரியான circuit conditions-ல் voltage, current, resistance ஆகியவற்றைக் கணக்கிட உதவும்.",
+        safety: "மின்சாரத்தில் வேலை செய்யும் முன் supply-ஐ isolate செய்து, பொருத்தமான tester மூலம் de-energized என்பதைச் சரிபார்.",
+        question: "Current = 3 A, Resistance = 4 Ω. Voltage எவ்வளவு?",
+        answer: "V = I × R = 3 × 4 = 12 V."
+      },
+
+      "electronics": {
+        title: "Electronics - Basic Components",
+        intro: "மின்னணுச் சுற்றுகளில் பயன்படும் அடிப்படை components.",
+        explanation: `
+          <p><b>Resistor:</b> Current-ஐ கட்டுப்படுத்த உதவும்.</p>
+          <p><b>Capacitor:</b> மின்சாரத்தை electric field-ல் சேமிக்கும்.</p>
+          <p><b>Diode:</b> பொதுவாக ஒரு திசையில் current பாய அனுமதிக்கும்.</p>
+          <p><b>Transistor:</b> Switching அல்லது amplification செய்யப் பயன்படும்.</p>`,
+        formula: "V = I × R",
+        example: "5 V supply மற்றும் 1 kΩ resistor இருந்தால், ideal resistor கணக்கில் I = 5/1000 = 0.005 A = 5 mA.",
+        practical: "PCB, charger, SMPS போன்றவற்றில் components-ஐ அடையாளம் காண இந்த அடிப்படைகள் உதவும்.",
+        safety: "Power-ஐ துண்டி, capacitor charge-ஐ பாதுகாப்பாக discharge செய்ததை உறுதிப்படுத்து. Live PCB-ஐ தொடாதே.",
+        question: "ஒரு resistor-ன் முக்கியப் பணி என்ன?",
+        answer: "Circuit-ல் current-ஐ கட்டுப்படுத்த உதவுவது."
+      },
+
+      "motors": {
+        title: "Motors & Automation",
+        intro: "மின்சாரத்தை இயந்திர இயக்கமாக மாற்றும் motor-களைப் பற்றி அறிந்துகொள்வோம்.",
+        explanation: `
+          <p><b>Induction Motor:</b> Industrial applications-ல் பரவலாகப் பயன்படுகிறது.</p>
+          <p><b>DOL Starter:</b> Motor-ஐ supply-க்கு நேரடியாக இணைக்கும் starter; பொருத்தமான protection அவசியம்.</p>
+          <p><b>VFD:</b> Motor speed-ஐ கட்டுப்படுத்த frequency மற்றும் voltage-ஐ மாற்ற உதவும்.</p>`,
+        formula: "Synchronous speed: Ns = 120 × f / P",
+        example: "50 Hz, 4-pole motor-க்கு Ns = 120 × 50 / 4 = 1500 rpm. Induction motor-ன் actual speed பொதுவாக இதைவிடக் குறைவாக இருக்கும்.",
+        practical: "Motor nameplate, overload relay, contactor, VFD settings ஆகியவற்றை அறிய இந்தப் பாடம் உதவும்.",
+        safety: "Motor panel-ல் வேலை செய்வதற்கு முன் isolation, lockout/tagout, absence-of-voltage verification ஆகியவற்றைப் பின்பற்று.",
+        question: "50 Hz, 4-pole motor-ன் synchronous speed என்ன?",
+        answer: "1500 rpm."
+      },
+
+      "fault-finding": {
+        title: "Practical Fault Finding",
+        intro: "Electrical மற்றும் electronic equipment-ல் fault-ஐ முறையாகக் கண்டறிவது.",
+        explanation: `
+          <p>1. Fault symptom-ஐ கவனித்துப் பதிவு செய்.</p>
+          <p>2. Supply, fuse, connector மற்றும் visible damage ஆகியவற்றைச் சரிபார்.</p>
+          <p>3. Equipment-க்கு ஏற்ற test procedure மற்றும் meter-ஐத் தேர்ந்தெடு.</p>
+          <p>4. கிடைத்த measurement-ஐ manufacturer specification-உடன் ஒப்பிடு.</p>`,
+        formula: "Power (DC) = Voltage × Current",
+        example: "12 V DC, 2 A load என்றால் P = 12 × 2 = 24 W.",
+        practical: "Multimeter மூலம் continuity, resistance மற்றும் பொருத்தமான சூழலில் voltage ஆகியவற்றைச் சரிபார்க்கலாம்.",
+        safety: "Resistance அல்லது continuity mode-ல் live circuit-ஐ test செய்யாதே. Mains voltage troubleshooting தகுதியான நபரால் மட்டுமே செய்யப்பட வேண்டும்.",
+        question: "Continuity test செய்யும் முன் முக்கியமாக என்ன செய்ய வேண்டும்?",
+        answer: "Supply-ஐ isolate செய்து, circuit de-energized என்பதை உறுதி செய்ய வேண்டும்."
+      }
+    };
+
+    const order = [
+      "ohms-law",
+      "electronics",
+      "motors",
+      "fault-finding"
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const topic = params.get("topic") || "ohms-law";
+    const lesson = lessons[topic] || lessons["ohms-law"];
+    const position = order.indexOf(topic);
+
+    document.title = lesson.title + " | Electrical Academy Tamil";
+    document.getElementById("title").textContent = lesson.title;
+    document.getElementById("intro").textContent = lesson.intro;
+    document.getElementById("explanation").innerHTML = lesson.explanation;
+    document.getElementById("formula").textContent = lesson.formula;
+    document.getElementById("example").textContent = lesson.example;
+    document.getElementById("practical").textContent = lesson.practical;
+    document.getElementById("safety").textContent = lesson.safety;
+    document.getElementById("question").textContent = lesson.question;
+    document.getElementById("answer").textContent = lesson.answer;
+
+    function showAnswer() {
+      document.getElementById("answer").hidden = false;
+    }
+
+    if (position > 0) {
+      document.getElementById("prev").href =
+        "lesson.html?topic=" + order[position - 1];
+      document.getElementById("prev").textContent = "← Previous Lesson";
+    }
+
+    if (position >= 0 && position < order.length - 1) {
+      document.getElementById("next").href =
+        "lesson.html?topic=" + order[position + 1];
+      document.getElementById("next").textContent = "Next Lesson →";
+    }
+  </script>
+</body>
+</html>

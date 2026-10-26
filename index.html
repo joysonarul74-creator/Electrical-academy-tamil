@@ -1,0 +1,127 @@
+<!doctype html>
+
+<html lang="ta">  
+<head>  
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">  
+<meta name="theme-color" content="#0b1220">
+<meta name="google-site-verification" content="Y7HMmDC0v2-BHaHbUSFm4KzBug8NZ8Hz0WO-2whAc_A" />
+<title>Electrical Academy Tamil</title>  
+<style>  
+:root{--bg:#0b1220;--panel:#121d30;--panel2:#17243a;--text:#eef4ff;--muted:#a8b7cc;--accent:#42d6b5;--line:#263750}  
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top right,#16304a 0,transparent 35%),var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Noto Sans Tamil",sans-serif}a{color:inherit;text-decoration:none}.wrap{max-width:1080px;margin:auto;padding:20px}.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:10px 0 22px}.brand{font-weight:850;font-size:1.1rem}.brand span{color:var(--accent)}.navlinks{display:flex;gap:10px;flex-wrap:wrap}.navlinks a,.btn{border:1px solid var(--line);padding:9px 13px;border-radius:12px;background:var(--panel);display:inline-block}.hero{padding:28px 0 24px}.eyebrow{color:var(--accent);font-weight:700;letter-spacing:.08em;font-size:.8rem}.hero h1{font-size:clamp(2rem,7vw,3.7rem);line-height:1.13;margin:10px 0}.hero p{color:var(--muted);max-width:700px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.primary{background:var(--accent);color:#06151a;border-color:var(--accent);font-weight:800}.sectionhead{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin:25px 0 14px}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card{background:linear-gradient(145deg,var(--panel2),var(--panel));border:1px solid var(--line);padding:18px;border-radius:18px;transition:transform .15s}.card:hover{transform:translateY(-2px);border-color:#42d6b588}.symbol{font-size:1.8rem}.card h3{margin:7px 0}.card p{color:var(--muted);font-size:.94rem;margin:0 0 10px}.arrow{color:var(--accent);font-weight:750}.note{margin:22px 0;background:#29251a;border:1px solid #67532b;color:#ffedc2;padding:14px;border-radius:14px}.foot{padding:25px 0;color:var(--muted);font-size:.85rem}  
+  
+/* Main category boxes */
+.category-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin: 24px 0;
+}
+
+.category-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 22px 18px;
+  background: linear-gradient(145deg, #142947, #0d1a2e);
+  border: 1.5px solid #1685ff;
+  border-radius: 20px;
+  color: #eef4ff;
+  text-decoration: none;
+  box-shadow: 0 0 15px #1685ff12;
+  transition: transform .2s, box-shadow .2s;
+}
+
+.category-box:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 22px #1685ff30;
+}
+
+.category-icon {
+  flex-shrink: 0;
+  width: 62px;
+  height: 62px;
+  display: grid;
+  place-items: center;
+  font-size: 32px;
+  border: 1px solid #1685ff;
+  border-radius: 16px;
+  background: #102b50;
+}
+
+.category-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.category-content h3 {
+  margin: 0 0 7px;
+  font-size: 19px;
+}
+
+.category-content p {
+  margin: 0;
+  color: #b4c7e5;
+  font-size: 14px;
+}
+
+.category-content .tamil {
+  color: #42d6b5;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.category-arrow {
+  color: #42d6b5;
+  font-size: 24px;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+@media (min-width: 700px) {
+  .category-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .category-box {
+    padding: 25px;
+  }
+}
+
+</style></head>  
+<body><main class="wrap">  
+<nav class="nav"><a class="brand" href="index.html">⚡ Electrical <span>Academy Tamil</span></a><div class="navlinks"><a href="devices.html">Device Library</a><a href="lesson.html">Lessons</a><a href="quiz.html">MCQ Quiz</a></div></nav>  
+<section class="hero"><div class="eyebrow">LEARN • TEST • TROUBLESHOOT</div><h1>Electrical devices-ஐ<br><span style="color:var(--accent)">practical-aa</span> கற்றுக்கொள்வோம்.</h1><p>ஒரு சாதனம் எப்படி வேலை செய்கிறது, அதன் முக்கிய பாகங்கள் என்ன, பொதுவான fault-களை எப்படிச் சிந்தித்து கண்டுபிடிப்பது என்பதைக் தமிழில் கற்றுக்கொள்ளுங்கள்.</p><div class="actions"><a class="btn primary" href="devices.html">Domestic Devices பார்க்க →</a><a class="btn" href="quiz.html">100 MCQ Quiz</a></div>
+<a class="category-box" href="industrial.html">
+    <div class="category-icon">⚙️</div>
+    <div class="category-content">
+      <h3>Industrial Devices</h3>
+      <p class="tamil">தொழிற்துறை சாதனங்கள்</p>
+      <p>Motors, Transformers, VFD, Starter Panel மற்றும் APFC.</p>
+    </div>
+    <span class="category-arrow">→</span>
+  </a>
+
+  <a class="category-box" href="eletronics.html">
+    <div class="category-icon">🔌</div>
+    <div class="category-content">
+      <h3>Electronic Components &amp; PCB</h3>
+      <p class="tamil">மின்னணுக் கூறுகள் மற்றும் PCB</p>
+      <p>Resistor, Capacitor, Diode, Transistor மற்றும் PCB Troubleshooting.</p>
+    </div>
+    <span class="category-arrow">→</span>
+  </a></section>  
+<section class="grid">  
+<a class="card" href="device.html?id=fan"><div class="symbol">🌀</div><h3>Ceiling Fan</h3><p>Motor, capacitor, regulator, common faults.</p><span class="arrow">படிக்க →</span></a>  
+<a class="card" href="device.html?id=washer"><div class="symbol">🧺</div><h3>Washing Machine</h3><p>Inlet valve, drain pump, motor, PCB.</p><span class="arrow">படிக்க →</span></a>  
+<a class="card" href="device.html?id=ac"><div class="symbol">❄️</div><h3>Air Conditioner</h3><p>Compressor, fan, sensors, cooling faults.</p><span class="arrow">படிக்க →</span></a>  
+<a class="card" href="device.html?id=tv"><div class="symbol">📺</div><h3>LED TV</h3><p>Power board, backlight, display symptoms.</p><span class="arrow">படிக்க →</span></a>  
+</section>  
+<div class="sectionhead"><h2>கற்றல் பிரிவுகள்</h2></div><section class="grid">  
+<a class="card" href="devices.html"><div class="symbol">🏠</div><h3>Domestic Device Library</h3><p>வீட்டு electrical & electronic சாதனங்கள்.</p><span class="arrow">திறக்க →</span></a>  
+<a class="card" href="industrial.html"><div class="symbol">⚙️</div><h3>Industrial Devices</h3><p> concepts-ஐ படிக்க.</p><span class="arrow">திறக்க →</span></a>   
+<a class="card" href="eletronics.html"><div class="symbol">🔬</div><h3>Electronic Components</h3><p>  electronic சாதனங்கள்.</p><span class="arrow">திறக்க →</span></a>
+</section>  
+<div class="note"><b>பாதுகாப்பு:</b> வீட்டின் 230V AC supply ஆபத்தானது. Live circuit-ஐத் திறந்து சோதிக்க வேண்டாம். Plug-ஐ disconnect செய்த பிறகே வெளிப்புற inspection செய்யவும். Internal mains repair-ஐ தகுதியான technician செய்ய வேண்டும்.</div>  
+<footer class="foot">Electrical Academy Tamil • Practical learning in Tamil</footer>  
+</main></body></html>
